@@ -167,3 +167,4 @@ class SidebarUtil {
     return fs.existsSync(targetpath) && fs.statSync(targetpath).isDirectory();
   };
 }
+module.exports = new SidebarUtil();
