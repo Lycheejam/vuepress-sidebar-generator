@@ -18,7 +18,7 @@ class SidebarGen {
   };
 
   // サイドバーアイテムの作成 メイン
-  getSidebarGroup (targetdir = '', title = '', isCollapsable = true) {
+  getSidebarGroup (targetdir = '/', title = '', isCollapsable = true) {
     let workingdir = './docs';
 
     let files = utils.getFiles(workingdir, targetdir);
