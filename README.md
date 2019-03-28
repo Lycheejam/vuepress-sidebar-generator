@@ -51,8 +51,6 @@ module.exports = {
 }
 ```
 
-![](images/example1.png)
-
 ## Example2
 
 この方法ではグループのタイトルを指定することが出来ます。  
@@ -95,6 +93,8 @@ module.exports = {
   }
 }
 ```
+
+![](images/example1.png)
 
 # 今後について
 
