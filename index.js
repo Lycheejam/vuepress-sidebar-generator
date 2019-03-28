@@ -1,6 +1,5 @@
-const fs = require('fs');
 const path = require('path');
-const utils = require('utils.js');
+const utils = require('./utils');
 
 class SidebarGen {
 
@@ -8,7 +7,6 @@ class SidebarGen {
     
   };
 
-  //メイン関数群
   //動かない
   getSidebarItem (targetdir) {
     let workingdir = './docs';
@@ -20,7 +18,7 @@ class SidebarGen {
   };
 
   // サイドバーアイテムの作成 メイン
-  getSidebarGroup (targetdir, title, isCollapsable = true) {
+  getSidebarGroup (targetdir = '', title = '', isCollapsable = true) {
     let workingdir = './docs';
 
     let files = utils.getFiles(workingdir, targetdir);
@@ -77,8 +75,5 @@ class SidebarGen {
   
     return sidebarList;
   };
-
-
-
 }
 module.exports = new SidebarGen();
