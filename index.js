@@ -7,9 +7,9 @@ class SidebarUtil {
   //動かない
   getSidebarItem (targetdir) {
     let workingdir = process.cwd();
-    let files = getFiles(workingdir, targetdir);
+    let files = this.getFiles(workingdir, targetdir);
     
-    return getFilepaths(files, targetdir).map((path) => {
+    return this.getFilepaths(files, targetdir).map((path) => {
       return "[" + path + " ]";
     }).join();
   };
@@ -18,9 +18,9 @@ class SidebarUtil {
   getSidebarGroup (targetdir, title, isCollapsable = true) {
     let workingdir = process.cwd();
 
-    let files = getFiles(workingdir, targetdir);
+    let files = this.getFiles(workingdir, targetdir);
 
-    let grouptitle = toTitle(title, targetdir);
+    let grouptitle = this.toTitle(title, targetdir);
 
     //サイドバーアイテムの作成
     let directoryGroup =  {
@@ -29,7 +29,7 @@ class SidebarUtil {
       // グループリスト展開有無
       collapsable: isCollapsable,
       // ディレクトリ配下のファイルリスト作成
-      children: getFilepaths(files, targetdir)
+      children: this.getFilepaths(files, targetdir)
     };
     return directoryGroup;
   };
@@ -37,13 +37,13 @@ class SidebarUtil {
   // サイドバーアイテムの作成 メイン
   getSidebarList (isCollapsable = true) {
     //rootパス用
-    let root = ['/']
+    let root = ['']
     //vuepressルートディレクトリ
-    let workingdir = process.cwd();
+    let workingdir = './docs';
   
     //root直下のファイル群はグループ化しないためファイルを単品で表示する。
     //root直下のファイル一覧取得
-    let rootfiles = getRootFileItems(workingdir);
+    let rootfiles = this.getRootFileItems(workingdir);
 
     //ファイルパスの生成
     let rootItems = rootfiles.map((file) => {
@@ -52,7 +52,7 @@ class SidebarUtil {
     });
   
     //ディレクトリ一覧の取得
-    let directores = getDirectores(workingdir);
+    let directores = this.getDirectores(workingdir);
 
     //サイドバーアイテムの作成（ディレクトリ毎）
     let directoryGroups = directores.map((directory) => {
@@ -63,7 +63,7 @@ class SidebarUtil {
         // グループリスト展開有無
         collapsable: isCollapsable,
         // ディレクトリ配下のファイルリスト作成
-        children: getFileitems(workingdir, directory)
+        children: this.getFileitems(workingdir, directory)
       };
     });
     // root直下のファイル群とroot配下のディレクトリ群を結合してサイドバーのアイテムとする。
@@ -103,7 +103,7 @@ class SidebarUtil {
     //return fs.readdirSync(workingdir + targetpath).filter((file) => {
     return fs.readdirSync(path.join(workingdir, targetpath)).filter((file) => {
       //return isFile(workingdir + targetpath + file);
-      return isFile(path.join(workingdir, targetpath, file));
+      return this.isFile(path.join(workingdir, targetpath, file));
     });
   };
 
@@ -133,7 +133,7 @@ class SidebarUtil {
       }
       // ディレクトリの場合：true 対象がファイルであった場合はfalse
       //return isDirectory(workingdir + '/' + childdir);
-      return isDirectory(path.join(workingdir, childdir));
+      return this.isDirectory(path.join(workingdir, childdir));
     });
   };
 
@@ -148,7 +148,7 @@ class SidebarUtil {
       }
       // ファイル存在判定 and マークダウンファイル判定
       //return isFile(workingdir + '/' + file);
-      return isFile(path.join(workingdir, file));
+      return this.isFile(path.join(workingdir, file));
     });
   };
 
