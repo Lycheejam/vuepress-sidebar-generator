@@ -12,23 +12,42 @@ class SidebarUtils {
     return title;
   };
 
+  // returns true exactly when the file is the index file
   isIndexFile(file) {
     return file === 'README.md' || file === 'index.md';
   }
 
+  // utility function for mapping and ordering files
+  // the order being: index file first (see above), everything else alphabetically
+  mapFiles(files, targetdir) {
+    let indexFile;
+    const mappedFiles = files
+    .filter((file) => {
+      // skip the index file in order to add it afterwards
+      if (this.isIndexFile(file)) {
+        // save the index file
+        indexFile = path.join(targetdir);
+        // file is the index file, therefore skip it
+        return false;
+      } else {
+        // file is not the index file, therefore add it to the filtered list
+        return true;
+      }
+    })
+    .map((file) => {
+      // README.md以外の場合は子ディレクトリ+ファイル名を返す。
+      //return "/" + targetdir + "/" + file;
+      return path.join(targetdir, file);
+    })
+    // add the index file as the first item and return the result
+    mappedFiles.splice(0, 0, indexFile);
+    return mappedFiles;
+  }
+
   // 対象ディレクトリ配下のファイルを取得
   getFilepaths(files, targetdir) {
-    return files.map((file) => {
-      // 子ディレクトリ配下にREADME.mdが存在する場合は子ディレクトリのパスとする。
-      if (this.isIndexFile(file)) {
-        // README.mdの場合は子ディレクトリ直下のパスとする。
-        //return targetdir;
-        return path.join(targetdir);
-      }
-      // README.md以外の場合は子ディレクトリ+ファイル名を返す。
-      //return targetdir + file;
-      return path.join(targetdir, file);
-    });
+    // map files to sidebar elements
+    return this.mapFiles(files, targetdir);
   };
 
   getFiles (workingdir, targetpath) {
@@ -41,18 +60,8 @@ class SidebarUtils {
 
   // 対象ディレクトリ配下のファイルを取得
   getFileitems(workingdir, targetdir) {
-    //return fs.readdirSync(workingdir + "/" + targetdir).map((file) => {
-    return fs.readdirSync(path.join(workingdir, targetdir)).map((file) => {
-      // 子ディレクトリ配下にREADME.mdが存在する場合は子ディレクトリのパスとする。
-      if (this.isIndexFile(file)) {
-        // README.mdの場合は子ディレクトリ直下のパスとする。
-        //return "/" + targetdir + "/"
-        return path.join(targetdir);
-      } 
-      // README.md以外の場合は子ディレクトリ+ファイル名を返す。
-      //return "/" + targetdir + "/" + file;
-      return path.join(targetdir, file);
-    })
+    // map files to sidebar elements
+    return this.mapFiles(fs.readdirSync(path.join(workingdir, targetdir)));
   };
   // ディレクトリ一覧の取得
   getDirectores (workingdir) {
