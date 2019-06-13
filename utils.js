@@ -12,11 +12,15 @@ class SidebarUtils {
     return title;
   };
 
+  isIndexFile(file) {
+    return file === 'README.md' || file === 'index.md';
+  }
+
   // 対象ディレクトリ配下のファイルを取得
   getFilepaths(files, targetdir) {
     return files.map((file) => {
       // 子ディレクトリ配下にREADME.mdが存在する場合は子ディレクトリのパスとする。
-      if (file === 'README.md') {
+      if (this.isIndexFile(file)) {
         // README.mdの場合は子ディレクトリ直下のパスとする。
         //return targetdir;
         return path.join(targetdir);
@@ -40,7 +44,7 @@ class SidebarUtils {
     //return fs.readdirSync(workingdir + "/" + targetdir).map((file) => {
     return fs.readdirSync(path.join(workingdir, targetdir)).map((file) => {
       // 子ディレクトリ配下にREADME.mdが存在する場合は子ディレクトリのパスとする。
-      if (file === 'README.md') {
+      if (this.isIndexFile(file)) {
         // README.mdの場合は子ディレクトリ直下のパスとする。
         //return "/" + targetdir + "/"
         return path.join(targetdir);
@@ -70,7 +74,7 @@ class SidebarUtils {
     // root配下のファイル＆ディレクトリ一覧取得
     return fs.readdirSync(workingdir).filter((file) => {
       //root配下のREADME.mdは'/'で表現されるので排除する。
-      if (file === 'README.md') {
+      if (this.isIndexFile(file)) {
         // README.mdの場合：false
         return false;
       }
