@@ -61,7 +61,7 @@ class SidebarUtils {
   // 対象ディレクトリ配下のファイルを取得
   getFileitems(workingdir, targetdir) {
     // map files to sidebar elements
-    return this.mapFiles(fs.readdirSync(path.join(workingdir, targetdir)));
+    return this.mapFiles(fs.readdirSync(path.join(workingdir, targetdir)), targetdir);
   };
   // ディレクトリ一覧の取得
   getDirectores (workingdir) {
