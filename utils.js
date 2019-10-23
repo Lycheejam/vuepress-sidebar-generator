@@ -51,7 +51,7 @@ class SidebarUtils {
     })
   };
   // ディレクトリ一覧の取得
-  getDirectores (workingdir) {
+  getDirectories (workingdir) {
     // root配下のファイル＆ディレクトリ一覧取得
     return fs.readdirSync(workingdir).filter((childdir) => {
       // .vuepressのみ除外
